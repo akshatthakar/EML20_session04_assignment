@@ -12,6 +12,8 @@ RUN apt install -y \
 
 ENV GRADIO_SERVER_PORT 7860
 
+EXPOSE 7860
+
 WORKDIR /opt/src
 
 ADD requirements.txt requirements.txt
