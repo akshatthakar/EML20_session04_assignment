@@ -12,4 +12,4 @@ RUN pip3 install -r requirements.txt && rm -rf /root/.cahe/pip
 
 WORKDIR /opt/src
 
-ENTRYPOINT python src/demo.py ckpt_path=/workspace/EML20_session04_assignment/logs/train/runs/2022-10-02_15-52-12/model.script.pt
+ENTRYPOINT python src/demo.py ckpt_path=logs/train/runs/2022-10-02_16-56-52/model.script.pt
