@@ -33,12 +33,10 @@ def demo(cfg: DictConfig) -> Tuple[dict, dict]:
     model = torch.jit.load(cfg.ckpt_path)
     log.info(f"Loaded Model: {model}")
 
-    transforms = T.Compose([T.ToTensor(), T.Normalize((0.1307,), (0.3081,))])
-
+ 
     def recognize_digit(image):
         if image is None:
             return None
-        image = transforms(image).unsqueeze(0)
         preds = model.forward_jit(image)
         preds = preds[0].tolist()
         return {str(i): preds[i] for i in range(10)}
