@@ -1,4 +1,4 @@
-IMAGE_NAME=emlv2_session2
+IMAGE_NAME=emlv2_session4
 help:  ## Show help
 	@grep -E '^[.a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
@@ -17,7 +17,7 @@ build: ## build training image
 	docker build --tag ${IMAGE_NAME}  .
 
 run:  ## run training image
-	docker run -it --volume `pwd`:/workspace/emlv2 ${IMAGE_NAME} bash /workspace/emlv2/entrypoint.sh
+	docker run -p 8080:7860 ${IMAGE_NAME} 
 format: ## Run pre-commit hooks
 	pre-commit run -a
 

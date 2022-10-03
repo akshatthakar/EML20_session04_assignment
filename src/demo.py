@@ -17,7 +17,10 @@ from omegaconf import DictConfig
 from torchvision import transforms as T
 from src import utils
 from torchvision import transforms
-
+from timm.data import resolve_data_config
+from timm.data.transforms_factory import create_transform
+import requests
+import urllib
 log = utils.get_pylogger(__name__)
 
 def demo(cfg: DictConfig) -> Tuple[dict, dict]:
@@ -33,21 +36,33 @@ def demo(cfg: DictConfig) -> Tuple[dict, dict]:
     log.info(f"Instantiating scripted model <{cfg.ckpt_path}>")
     model = torch.jit.load(cfg.ckpt_path)
     log.info(f"Loaded Model: {model}")
-
+    ##response = requests.get("https://git.io/JJkYN")
+    ##labels = response.text.split("\n")
+    url, filename = ("https://raw.githubusercontent.com/pytorch/hub/master/imagenet_classes.txt", "imagenet_classes.txt")
+    urllib.request.urlretrieve(url, filename) 
+    with open("imagenet_classes.txt", "r") as f:
+        categories = [s.strip() for s in f.readlines()]
  
     def recognize_image(image):
         if image is None:
             return None
-        inp = transforms.ToTensor()(image).unsqueeze(0)
-        preds = model.forward_jit(inp)
-        preds = preds[0].tolist()
-        return {str(i): preds[i] for i in range(10)}
+        ##inp = transforms.ToTensor()(image).unsqueeze(0)
+        config = resolve_data_config({}, model=model)
+        transform = create_transform(**config)
+        tensor = transform(image).unsqueeze(0)
+        preds = model.forward_jit(tensor)
+        ##preds = preds[0].tolist()
+        top1_prob, top1_catid = torch.topk(preds, 1)
+        response = ""
+        import json
+        for i in range(top1_prob.size(0)):
+            response = f'"predicted" :  "{categories[top1_catid[i]]}", "confidence" : {top1_prob[i].item()}'
+        return "{"+ response    +"}"
 
     demo = gr.Interface(
         fn=recognize_image,
         inputs=gr.Image(type="pil"),
-        outputs=[gr.Label(num_top_classes=10)],
-        live=True,
+        outputs=[gr.Label(num_top_classes=3)]
     )
     demo.launch(server_name="0.0.0.0")
 

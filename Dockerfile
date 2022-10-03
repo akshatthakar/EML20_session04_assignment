@@ -1,4 +1,4 @@
-FROM python:3.9.13-slim
+FROM zironycho/pytorch:1.6.0-slim-py3.7-v1
 
 # Basic setup
 RUN apt update
