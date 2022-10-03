@@ -15,7 +15,7 @@ import hydra
 import gradio as gr
 from omegaconf import DictConfig
 from torchvision import transforms as T
-from src import utils
+from utils
 from torchvision import transforms
 from timm.data import resolve_data_config
 from timm.data.transforms_factory import create_transform
