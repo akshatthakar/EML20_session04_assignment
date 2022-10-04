@@ -27,7 +27,8 @@ COPY ["*.toml","src/demo.py","requirements.txt" ,"requirements.txt" ,"./"]
 
 RUN  pip install --no-cache-dir -r requirements.txt \
   && rm requirements.txt \
-  && rm -rf /root/.cache/pip
+  && rm -rf /root/.cache/pip \
+  && rm -rf /tmp/*
 
 
 ENTRYPOINT python demo.py ckpt_path=logs/train/runs/2022-10-02_16-56-52/model.script.pt

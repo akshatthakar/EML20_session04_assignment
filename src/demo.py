@@ -15,11 +15,11 @@ import hydra
 import gradio as gr
 from omegaconf import DictConfig
 from torchvision import transforms as T
-from utils
 from torchvision import transforms
 from timm.data import resolve_data_config
 from timm.data.transforms_factory import create_transform
 import requests
+import utils
 import urllib
 log = utils.get_pylogger(__name__)
 
@@ -37,11 +37,17 @@ def demo(cfg: DictConfig) -> Tuple[dict, dict]:
     model = torch.jit.load(cfg.ckpt_path)
     log.info(f"Loaded Model: {model}")
     ##response = requests.get("https://git.io/JJkYN")
-    ##labels = response.text.split("\n")
-    url, filename = ("https://raw.githubusercontent.com/pytorch/hub/master/imagenet_classes.txt", "imagenet_classes.txt")
-    urllib.request.urlretrieve(url, filename) 
-    with open("imagenet_classes.txt", "r") as f:
-        categories = [s.strip() for s in f.readlines()]
+    labels_dict =  { 0:"airplane",
+                    1:"automobile",
+                    2:"bird",
+                    3:"cat",
+                    4: "deer",
+                    5: "dog",
+                    6: "frog",
+                    7:"horse",
+                    8:"ship",
+                    9:"truck"}
+
  
     def recognize_image(image):
         if image is None:
@@ -51,13 +57,8 @@ def demo(cfg: DictConfig) -> Tuple[dict, dict]:
         transform = create_transform(**config)
         tensor = transform(image).unsqueeze(0)
         preds = model.forward_jit(tensor)
-        ##preds = preds[0].tolist()
-        top1_prob, top1_catid = torch.topk(preds, 1)
-        response = ""
-        import json
-        for i in range(top1_prob.size(0)):
-            response = f'"predicted" :  "{categories[top1_catid[i]]}", "confidence" : {top1_prob[i].item()}'
-        return "{"+ response    +"}"
+        preds = preds[0].tolist()
+        return {str(labels_dict[i]): preds[i] for i in range(10)}
 
     demo = gr.Interface(
         fn=recognize_image,
