@@ -1,4 +1,4 @@
-FROM zironycho/pytorch:1120-cpu-py38
+FROM python:3.7.10-slim-buster
 
 
 # Basic setup
@@ -17,21 +17,17 @@ EXPOSE 7860
 
 WORKDIR /opt/src
 
-ADD src/demo.py demo.py
-
 ADD src/utils utils
 
 ADD configs configs
 
 ADD logs logs
 
-ADD *.toml .
+COPY ["*.toml","src/demo.py","requirements.txt" ,"requirements.txt" ,"./"]
 
-ADD requirements.txt requirements.txt
+RUN  pip install --no-cache-dir -r requirements.txt \
+  && rm requirements.txt \
+  && rm -rf /root/.cache/pip
 
-RUN rm -rf /root/.cahe/pip
-
-RUN pip install --no-cache-dir -r requirements.txt \
-    && rm requirements.txt
 
 ENTRYPOINT python demo.py ckpt_path=logs/train/runs/2022-10-02_16-56-52/model.script.pt
