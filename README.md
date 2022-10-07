@@ -28,7 +28,7 @@ Build demo inference docker image timm model with Pytorch Lightning using -
 <br>
 5.)Docker
 <br>
-6.)Optimal parameters - Learning Rate :  0.022, Batch Size : 128
+6.)Optimal parameters - Learning Rate :  0.0224 [timm.yaml], Batch Size : 128[cifar10.yaml]
 
 
 ## How to run
@@ -36,14 +36,24 @@ Build demo inference docker image timm model with Pytorch Lightning using -
 code available in master branch
 
 
-CIFAR Optuna run - 
+Build CIFAR10 docker image - 
 ```bash
-docker build --tar 
+
+make build 
+
+or 
+docker build --tag emlv2_session4 .
+
+
 ```
 
+run CIFAR10 container
 ```bash
+make run
 
-docker run -p 8080:7860 
+or 
+
+docker run -p 8080:7860 emlv2_session4
 
 ```
 
