@@ -24,11 +24,11 @@ Build demo inference docker image timm model with Pytorch Lightning using -
 <br>
 3.) TIMM pre trained model
 <br>
-4.)Hydra
+4.) Hydra
 <br>
-5.)Docker
+5.) Docker
 <br>
-6.)Optimal parameters - Learning Rate :  0.0224 [timm.yaml], Batch Size : 128[cifar10.yaml]
+6.)Trainied on  parameters obtained from experiment run - Optimizer - torch.optim.SGD, Learning Rate :  0.0224 [timm.yaml], Batch Size : 128[cifar10.yaml]
 
 
 ## How to run
