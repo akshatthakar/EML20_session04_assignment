@@ -17,7 +17,7 @@ build: ## build training image
 	docker build --tag ${IMAGE_NAME}  .
 
 run:  ## run training image
-	docker run -p 8084:7860 ${IMAGE_NAME} 
+	docker run -p 8080:8080 ${IMAGE_NAME}:latest
 format: ## Run pre-commit hooks
 	pre-commit run -a
 

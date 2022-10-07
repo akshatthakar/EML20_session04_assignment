@@ -11,9 +11,9 @@ RUN apt install -y \
     wget \
     && rm -rf /var/lib/apt/lists
 
-ENV GRADIO_SERVER_PORT 7860
+ENV GRADIO_SERVER_PORT 8080
 
-EXPOSE 7860
+EXPOSE 8080
 
 WORKDIR /opt/src
 

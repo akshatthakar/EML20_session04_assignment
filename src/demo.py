@@ -47,7 +47,6 @@ def demo(cfg: DictConfig) -> Tuple[dict, dict]:
                     7:"horse",
                     8:"ship",
                     9:"truck"}
-
  
     def recognize_image(image):
         if image is None:
@@ -65,7 +64,7 @@ def demo(cfg: DictConfig) -> Tuple[dict, dict]:
         inputs=gr.Image(type="pil"),
         outputs=[gr.Label(num_top_classes=3)]
     )
-    demo.launch(server_name="0.0.0.0")
+    demo.launch(server_name="0.0.0.0", share= True)
 
 @hydra.main(
     version_base="1.2", config_path=root / "configs", config_name="demo_scripted.yaml"
