@@ -42,12 +42,14 @@ Build CIFAR10 docker image -
 make build 
 
 or 
+
 docker build --tag emlv2_session4 .
 
 
 ```
 
-run CIFAR10 container
+Run CIFAR10 container
+
 ```bash
 make run
 
