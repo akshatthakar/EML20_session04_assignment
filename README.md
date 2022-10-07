@@ -28,7 +28,9 @@ Build demo inference docker image timm model with Pytorch Lightning using -
 <br>
 5.) Docker
 <br>
-6.)Trainied on  parameters obtained from experiment run - 
+6.) Model serialized into  TorchScript Scripted Model
+<br>
+6.)Model Trainied on  parameters obtained from experiment run - 
 
 <ul>Optimizer - torch.optim.SGD </ul>
 <ul>Learning Rate :  0.0224 [timm.yaml] </ul>
@@ -55,11 +57,11 @@ docker build --tag emlv2_session4 .
 Run CIFAR10 container
 
 ```bash
-make run
+make run 
 
 or 
 
-docker run -p 8080:7860 emlv2_session4
+docker run -p 8080:8080 emlv2_session4:latest
 
 ```
 
